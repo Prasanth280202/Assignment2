@@ -148,6 +148,7 @@ void A_input(struct pkt packet)
           stoptimer(A);
           if (windowcount > 0)
             starttimer(A, RTT);
+            
         }
       }
     }
@@ -164,7 +165,7 @@ void A_input(struct pkt packet)
 void A_timerinterrupt(void)
 {int i;
   if (TRACE > 0)
-  printf("----A: timeout, resending all unacked packets in window\n");
+  printf("----A:: time out,resend packets!\n");
 
 /* Resend all unacked packets in window */
 for (i = 0; i < WINDOWSIZE; i++) {
