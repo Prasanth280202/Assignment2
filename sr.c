@@ -121,8 +121,10 @@ void A_output(struct msg message)
 void A_input(struct pkt packet)
 {
   if (!IsCorrupted(packet)) {
-    if (TRACE > 0)
-      printf("----A: uncorrupted ACK %d is received\n",packet.acknum);
+    if (TRACE > 0) {
+      printf("----A: uncorrupted ACK %d is received\n", packet.acknum);
+      printf("----A: ACK %d is not a duplicate\n", packet.acknum);
+    }
     total_ACKs_received++;
 
     /* Check if ACK is within current window */
@@ -234,7 +236,7 @@ void B_input(struct pkt packet)
     /* Deliver all in-order packets we have */
     while (received[expectedseqnum]) {
       if (TRACE > 0)
-        printf("----B: delivering packet %d to layer5\n", expectedseqnum);
+        printf("----B: packet %d is correctly received, send ACK!\n", packet.seqnum);
       
       tolayer5(B, packet.payload);
       received[expectedseqnum] = false;
@@ -256,7 +258,9 @@ void B_input(struct pkt packet)
   tolayer3(B, sendpkt);
   
   if (TRACE > 1 && packet_accepted)
-    printf("----B: packet %d accepted (total received: %d)\n", packet.seqnum, packets_received);
+  {}
+    /*printf("----B: packet %d accepted (total received: %d)\n", packet.seqnum, packets_received);*/
+    
 
 }
 
